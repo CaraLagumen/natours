@@ -175,11 +175,11 @@ tourSchema.pre(/^find/, function(next) {
 });
 
 //QUERY BENCHMARK - RUNS AFTER QUERY IS FINISHED
-tourSchema.post(/^find/, function(docs, next) {
-  console.log(`Query took ${Date.now() - this.start} milliseconds.`);
-  console.log(docs);
-  next();
-});
+// tourSchema.post(/^find/, function(docs, next) {
+//   console.log(`Query took ${Date.now() - this.start} milliseconds.`);
+//   console.log(docs);
+//   next();
+// });
 
 //HIDDEN TO ENABLE GEONEAR FIRST STAGE IN PIPELINE
 //AGGREGATION MIDDLEWARE (HIDE TOUR SECRETS FROM MISC SEARCHES)
