@@ -83,7 +83,7 @@ process.on('unhandledRejection', err => {
 //SIGTERM IS SIGNAL FROM HEROKU SENT TO THE APP TO SHUTDOWN DAILY
 process.on(`SIGTERM`, () => {
   console.log(`SIGTERM RECEIVED. Shutting down gracefully.`);
-  server.close() => {
+  server.close(() => {
     console.log(`Process terminated.`);
   }
 })
