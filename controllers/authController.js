@@ -13,18 +13,20 @@ const signToken = id => {
 };
 
 //CREATE COOKIE AND ATTACH TOKEN
-const createSendToken = (user, statusCode, res) => {
+const createSendToken = (user, statusCode, req, res) => {
   const token = signToken(user._id);
   const cookieOptions = {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
     // secure: true, //ONLY SENDS IN ENCRYPTED CONNECTION
-    httpOnly: true //COOKIE CANNOT BE ACCESSED OR MODIFIED BY BROWSER
+    httpOnly: true, //COOKIE CANNOT BE ACCESSED OR MODIFIED BY BROWSER
+    secure: req.secure || req.headers(`x-forwarded-proto`) === `https`
   };
 
   //SEND ONLY IF IN PRODUCTION MODE
-  if (process.env.NODE_ENV === `production`) cookieOptions.secuure = true;
+  //SEE SECURE ABOVE FOR HEROKU SPECIFIC SETTINGS
+  // if (process.env.NODE_ENV === `production`) cookieOptions.secure = true;
 
   //SEND COOKIE
   res.cookie(`jwt`, token, cookieOptions);
@@ -59,7 +61,7 @@ exports.signup = catchAsync(async (req, res, next) => {
 
   await new Email(newUser, url).sendWelcome();
 
-  createSendToken(newUser, 201, res);
+  createSendToken(newUser, 201, req, res);
 
   // const token = signToken(newUser._id); //jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
   // //     expiresIn: process.env.JWT_EXPIRES_IN
@@ -90,7 +92,7 @@ exports.login = catchAsync(async (req, res, next) => {
   }
 
   //3. AFTER VERIFYING EVERYTHING, SEND TOKEN TO CLIENT
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, req, res);
   // const token = signToken(user._id);
   // res.status(200).json({
   //   status: `success`,
@@ -255,7 +257,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   //3. UPDATE changedPasswordAt PROPERTY FOR USER
   await user.save(); //INCLUDED IN SCHEMA MIDDLEWARE
   //4. LOG USER IN, SEND JWT
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, req, res);
   // const token = signToken(user._id);
 
   // res.status(201).json({
@@ -276,5 +278,5 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   user.passwordConfirm = req.body.passwordConfirm;
   await user.save();
   //4. LOG USER IN, SEND JWT
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, req, res);
 });

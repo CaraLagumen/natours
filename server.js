@@ -79,3 +79,11 @@ process.on('unhandledRejection', err => {
     process.exit(1); //1 STANDS FOR UNCALLED EXCEPTION, 0 FOR SUCCESS
   });
 });
+
+//SIGTERM IS SIGNAL FROM HEROKU SENT TO THE APP TO SHUTDOWN DAILY
+process.on(`SIGTERM`, () => {
+  console.log(`SIGTERM RECEIVED. Shutting down gracefully.`);
+  server.close() => {
+    console.log(`Process terminated.`);
+  }
+})

@@ -21,6 +21,9 @@ const bookingRouter = require(`./routes/bookingRoutes`);
 
 const app = express();
 
+//TRUST HEROKU
+app.enable(`trust proxy`);
+
 //USE PUG FOR TEMPLATE ENGINE
 app.set(`view engine`, `pug`);
 app.set(`views`, path.join(__dirname, `views`)); //path.join PREVENTS ANY ERRORS WITH /
