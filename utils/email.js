@@ -11,6 +11,7 @@ module.exports = class Email {
     this.url = url;
     this.from = `Cara Lagumen <${process.env.EMAIL_FROM}>`;
   }
+
   newTransport() {
     if (process.env.NODE_ENV === `production`) {
       //SENDGRID
@@ -32,10 +33,12 @@ module.exports = class Email {
       //ACTIVATE IN GMAIL 'LESS SECURE APP' OPTION
     });
   }
+
   async send(template, subject) {
     //SEND THE ACTUAL EMAIL
     //1. RENDER HTML BASED ON PUG TEMPLATE
-    const html = pug.renderFile(`${__dirname}/../views/email/${template}.pug`, {
+    const html = pug.renderFile(`../views/email/${template}.pug`, {
+      //`${__dirname}/../views/email/${template}.pug`
       firstName: this.firstName,
       url: this.url,
       subject
@@ -51,9 +54,11 @@ module.exports = class Email {
     //3. CREATE A TRANSPORT AND SEND EMAIL
     await this.newTransport().sendMail(mailOptions);
   }
+
   async sendWelcome() {
     await this.send(`Welcome`, `Welcome to the Natours family.`);
   }
+
   async sendPasswordReset() {
     await this.send(
       `passwordReset`,

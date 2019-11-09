@@ -33,14 +33,13 @@ const sendErrorDev = (err, req, res) => {
       message: err.message,
       stack: err.stack
     });
-  } else {
-    console.log(`Error.`, err);
-    //RENDERED WEBSITE
-    return res.status(err.statusCode).render(`error`, {
-      title: `Something went wrong.`,
-      msg: err.message
-    });
   }
+  console.log(`Error.`, err);
+  //RENDERED WEBSITE
+  return res.status(err.statusCode).render(`error`, {
+    title: `Something went wrong.`,
+    msg: err.message
+  });
 };
 
 const sendErrorProd = (err, req, res) => {
@@ -98,7 +97,7 @@ module.exports = (err, req, res, next) => {
     if (error.name === `ValidationError`)
       error = handleValidationErrorDB(error);
     if (error.name === `JsonWebTokenError`) error = handleJWTError();
-    if (error.name === `TokenExpiredError`) error = handleJWTExpired();
+    if (error.name === `TokenExpiredError`) error = handleJWTExpiredError();
     sendErrorProd(error, req, res);
   }
 };
