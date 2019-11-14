@@ -21,7 +21,7 @@ const createSendToken = (user, statusCode, req, res) => {
     ),
     // secure: true, //ONLY SENDS IN ENCRYPTED CONNECTION
     httpOnly: true, //COOKIE CANNOT BE ACCESSED OR MODIFIED BY BROWSER
-    secure: req.secure || req.headers(`x-forwarded-proto`) === `https`
+    secure: req.secure || req.headers[`x-forwarded-proto`] === `https`
   };
 
   //SEND ONLY IF IN PRODUCTION MODE
