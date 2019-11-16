@@ -1,9 +1,12 @@
 # Natours
-Book NA tours. [Node.js, Express, Mongoose, &amp; MongoDB] 
+Book NA tours. [Node.js, Express, Mongoose, &amp; MongoDB]
+
+# API
+https://documenter.getpostman.com/view/6660913/SVzxZfwF?version=latest
 
 ## Test Case
 
-You can reate your own account by using the sign up button on the top right corner.
+You can create your own account by using the sign up button on the top right corner.
 
 Otherwise, you can log in as laura@example.com with the password 'test1234' - unless the password is changed.
 
